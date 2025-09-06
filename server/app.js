@@ -34,6 +34,7 @@ app.use("/api/cart", cartRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
+// server connection
 app.listen(5000, ()=> {
     connectDB();
     console.log('App running on port 5000');
