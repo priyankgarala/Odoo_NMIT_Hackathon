@@ -9,7 +9,7 @@ import cartRoutes from './src/routes/cartRoutes.js'
 import cors from 'cors';
 import { notFound, errorHandler } from './src/middlewares/errorHandlers.js';
 
-
+//app.js
 dotenv.config();
 
 const app = express();

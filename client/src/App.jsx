@@ -11,6 +11,7 @@ import { CartProvider } from "./contexts/CartContext";
 
 export default function App() {
   return (
+    // routing for different pages
     <CartProvider>
       <Router>
         <Routes>
