@@ -26,12 +26,7 @@ const CartPage = () => {
     try {
       const result = await updateCartItem(axiosInstance, productId, newQuantity)
       console.log('Quantity update result:', result)
-      if (result && result.cart) {
-        updateCart(result.cart)
-      } else {
-        console.error('Invalid response from updateCartItem:', result)
-        alert('Invalid response from server')
-      }
+      updateCart(result.cart)
     } catch (err) {
       console.error('Failed to update quantity:', err)
       alert(err?.response?.data?.message || 'Failed to update quantity')
@@ -46,12 +41,7 @@ const CartPage = () => {
     try {
       const result = await removeFromCart(axiosInstance, productId)
       console.log('Remove item result:', result)
-      if (result && result.cart) {
-        updateCart(result.cart)
-      } else {
-        console.error('Invalid response from removeFromCart:', result)
-        alert('Invalid response from server')
-      }
+      updateCart(result.cart)
     } catch (err) {
       console.error('Failed to remove item:', err)
       alert(err?.response?.data?.message || 'Failed to remove item')
@@ -219,8 +209,6 @@ const CartPage = () => {
                           <button
                             onClick={(e) => {
                               e.preventDefault()
-                              e.stopPropagation()
-                              console.log('Increase button clicked for product:', item.product_id._id)
                               handleQuantityChange(item.product_id._id, item.quantity + 1)
                             }}
                             disabled={updating[item.product_id._id] || item.quantity >= item.product_id.quantity}
@@ -243,8 +231,6 @@ const CartPage = () => {
                           <button
                             onClick={(e) => {
                               e.preventDefault()
-                              e.stopPropagation()
-                              console.log('Remove button clicked for product:', item.product_id._id)
                               handleRemoveItem(item.product_id._id)
                             }}
                             disabled={updating[item.product_id._id]}

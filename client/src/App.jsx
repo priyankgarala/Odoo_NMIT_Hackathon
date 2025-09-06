@@ -8,6 +8,8 @@ import ProductDetail from "./pages/ProductDetail";
 import CartPage from "./pages/CartPage";
 import PreviousPurchasePage from "./pages/PreviousPurchasePage";
 import { CartProvider } from "./contexts/CartContext";
+import MyProducts from "./pages/MyProducts";
+import AddNewProduct from "./pages/AddNewProduct";
 
 
 export default function App() {
@@ -38,6 +40,18 @@ export default function App() {
             </PrivateRoute>
           } />
 
+          <Route path="/myproducts" element={
+            <PrivateRoute>
+              <MyProducts />
+            </PrivateRoute>
+          } />
+
+          <Route path="/addnew" element={
+            <PrivateRoute>
+              <AddNewProduct />
+            </PrivateRoute>
+          } />
+          
         </Routes>
       </Router>
     </CartProvider>

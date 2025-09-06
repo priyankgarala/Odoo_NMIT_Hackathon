@@ -5,6 +5,22 @@ import { getPublicProducts, searchProducts } from '../api/product'
 import SearchAndFilter from '../Components/SearchAndFilter'
 import Header from '../Components/Header'
 import AddToCartButton from '../Components/AddToCartButton'
+import { Button } from '../components/ui/button'
+import { Card, CardContent } from '../components/ui/card'
+import { Badge } from '../components/ui/badge'
+import { 
+  Star, 
+  ArrowRight, 
+  ShoppingCart, 
+  Search, 
+  Heart, 
+  TrendingUp,
+  Shield,
+  Truck,
+  Award,
+  Users,
+  Zap
+} from 'lucide-react'
 // import LoadingSpinner from '../Components/LoadingSpinner'
 
 const Dashboard = () => {
@@ -51,110 +67,350 @@ const Dashboard = () => {
   if (error) return <div className="p-6 text-red-600">{error}</div>
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50">
       <Header />
-      <div className="max-w-6xl mx-auto p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">
-          {searchResult ? 'Search Results' : 'Latest Products'}
-        </h1>
-        {searchResult && (
-          <button
-            onClick={loadProducts}
-            className="text-blue-600 hover:text-blue-800 font-medium"
-          >
-            ← Back to All Products
-          </button>
-        )}
-      </div>
-
-      {/* Search and Filter Component */}
-      <SearchAndFilter onSearch={handleSearch} loading={isSearching} />
-
-
-      {/* Error Display */}
-      {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-          <p className="text-red-800">{error}</p>
-        </div>
-      )}
-
-      {/* Products Grid */}
-      {products.length === 0 ? (
-        <div className="text-center py-12">
-          <div className="text-6xl mb-4">🔍</div>
-          <h3 className="text-xl font-semibold text-gray-600 mb-2">
-            {searchResult ? 'No products found' : 'No products yet'}
-          </h3>
-          <p className="text-gray-500">
-            {searchResult ? 'Try adjusting your search criteria' : 'Be the first to add a product!'}
+      
+      {/* Hero Banner Section */}
+      <section className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 text-white py-20">
+        <div className="absolute inset-0 bg-black opacity-20"></div>
+        <div className="relative max-w-7xl mx-auto px-4 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+            Discover Amazing Products
+          </h1>
+          <p className="text-xl md:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto">
+            Find the perfect items from our curated collection of quality products
           </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 font-semibold">
+              <ShoppingCart className="mr-2 h-5 w-5" />
+              Shop Now
+            </Button>
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+              <Search className="mr-2 h-5 w-5" />
+              Browse Categories
+            </Button>
+          </div>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map(p => (
-            <div 
-              key={p._id} 
-              className="border rounded-xl p-4 bg-white shadow hover:shadow-lg transition-shadow cursor-pointer"
-              onClick={() => navigate(`/product/${p._id}`)}
-            >
-              {/* Product Image */}
-              {p.image_url ? (
-                <div className="aspect-square rounded-lg overflow-hidden bg-gray-100 mb-4">
-                  <img 
-                    src={p.image_url} 
-                    alt={p.name} 
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-200" 
-                  />
-                </div>
-              ) : (
-                <div className="aspect-square rounded-lg bg-gray-200 flex items-center justify-center mb-4">
-                  <div className="text-center text-gray-500">
-                    <div className="text-4xl mb-1">📦</div>
-                    <p className="text-sm">No Image</p>
-                  </div>
-                </div>
-              )}
-              
-              {/* Product Info */}
-              <div className="space-y-2">
-                <h3 className="font-semibold text-lg text-gray-900 line-clamp-2">{p.name}</h3>
-                {p.description && (
-                  <p className="text-sm text-gray-600 line-clamp-2">{p.description}</p>
-                )}
-                
-                {/* Price and Condition */}
-                <div className="flex items-center justify-between">
-                  <p className="text-xl font-bold text-blue-600">${p.price}</p>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    p.condition === 'new' ? 'bg-green-100 text-green-800' :
-                    p.condition === 'used' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-blue-100 text-blue-800'
-                  }`}>
-                    {p.condition?.charAt(0).toUpperCase() + p.condition?.slice(1) || 'New'}
-                  </span>
-                </div>
-                
-                {/* Category */}
-                {p.category && (
-                  <p className="text-xs text-gray-500">Category: {p.category}</p>
-                )}
+      </section>
 
-                {/* Add to Cart Button */}
-                <div className="pt-3">
-                  <AddToCartButton 
-                    product={p} 
-                    className="w-full"
-                    disabled={!p.is_active}
-                  />
-                </div>
+      {/* Search and Filter Section */}
+      <section className="py-8 bg-white shadow-sm">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-3xl font-bold text-gray-900">
+              {searchResult ? 'Search Results' : 'Latest Products'}
+            </h2>
+            {searchResult && (
+              <Button
+                onClick={loadProducts}
+                variant="outline"
+                className="text-blue-600 border-blue-600 hover:bg-blue-50"
+              >
+                ← Back to All Products
+              </Button>
+            )}
+          </div>
+          <SearchAndFilter onSearch={handleSearch} loading={isSearching} />
+        </div>
+      </section>
+
+      {/* Categories Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Shop by Category</h2>
+            <p className="text-xl text-gray-600">Explore our wide range of product categories</p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { name: "Electronics", icon: "📱", color: "blue", count: "150+" },
+              { name: "Fashion", icon: "👕", color: "pink", count: "200+" },
+              { name: "Home & Garden", icon: "🏠", color: "green", count: "120+" },
+              { name: "Sports", icon: "⚽", color: "orange", count: "80+" },
+              { name: "Books", icon: "📚", color: "purple", count: "300+" },
+              { name: "Beauty", icon: "💄", color: "rose", count: "90+" },
+              { name: "Toys", icon: "🧸", color: "yellow", count: "110+" },
+              { name: "Automotive", icon: "🚗", color: "gray", count: "60+" }
+            ].map((category, index) => (
+              <Card key={index} className="group cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-blue-400">
+                <CardContent className="p-6 text-center">
+                  <div className={`w-16 h-16 bg-${category.color}-100 rounded-full mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                    <span className="text-2xl">{category.icon}</span>
+                  </div>
+                  <h3 className="font-semibold text-lg group-hover:text-blue-600 transition-colors mb-1">
+                    {category.name}
+                  </h3>
+                  <p className="text-sm text-gray-500">{category.count} items</p>
+                  <Button variant="ghost" size="sm" className="mt-2 text-blue-600 hover:text-blue-700">
+                    Explore
+                    <ArrowRight className="ml-1 h-4 w-4" />
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose Us?</h2>
+            <p className="text-xl text-gray-600">We provide the best shopping experience</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <Shield className="h-8 w-8 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Secure Shopping</h3>
+              <p className="text-gray-600">Your data and payments are protected with industry-leading security</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <Truck className="h-8 w-8 text-green-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Fast Delivery</h3>
+              <p className="text-gray-600">Quick and reliable shipping to get your products to you fast</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-purple-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <Award className="h-8 w-8 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Quality Guarantee</h3>
+              <p className="text-gray-600">All products are verified for quality and authenticity</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Products Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-bold text-gray-900">
+              {searchResult ? 'Search Results' : 'Featured Products'}
+            </h2>
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <TrendingUp className="h-4 w-4" />
+              <span>Updated daily</span>
+            </div>
+          </div>
+
+          {/* Error Display */}
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+              <p className="text-red-800">{error}</p>
+            </div>
+          )}
+
+          {/* Products Grid */}
+          {products.length === 0 ? (
+            <div className="text-center py-16">
+              <div className="w-24 h-24 bg-gray-100 rounded-full mx-auto mb-6 flex items-center justify-center">
+                <Search className="h-12 w-12 text-gray-400" />
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-600 mb-2">
+                {searchResult ? 'No products found' : 'No products yet'}
+              </h3>
+              <p className="text-gray-500 mb-6">
+                {searchResult ? 'Try adjusting your search criteria' : 'Be the first to add a product!'}
+              </p>
+              {!searchResult && (
+                <Button onClick={() => navigate('/add-product')} className="bg-blue-600 hover:bg-blue-700">
+                  Add Your First Product
+                </Button>
+              )}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {products.map(p => (
+                <Card 
+                  key={p._id} 
+                  className="group cursor-pointer hover:shadow-xl transition-all duration-300 border-0 shadow-md hover:border-blue-200"
+                  onClick={() => navigate(`/product/${p._id}`)}
+                >
+                  <CardContent className="p-0">
+                    {/* Product Image */}
+                    <div className="relative">
+                      {p.image_url ? (
+                        <div className="aspect-square rounded-t-lg overflow-hidden bg-gray-100">
+                          <img 
+                            src={p.image_url} 
+                            alt={p.name} 
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                          />
+                        </div>
+                      ) : (
+                        <div className="aspect-square rounded-t-lg bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                          <div className="text-center text-gray-400">
+                            <div className="text-4xl mb-2">📦</div>
+                            <p className="text-sm">No Image</p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Badge */}
+                      <Badge className="absolute top-3 left-3 bg-white text-gray-800 shadow-md">
+                        {p.condition?.charAt(0).toUpperCase() + p.condition?.slice(1) || 'New'}
+                      </Badge>
+                      
+                      {/* Wishlist Button */}
+                      <Button 
+                        size="sm" 
+                        variant="ghost" 
+                        className="absolute top-3 right-3 bg-white/80 hover:bg-white shadow-md"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          // Add to wishlist functionality
+                        }}
+                      >
+                        <Heart className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    
+                    {/* Product Info */}
+                    <div className="p-4 space-y-3">
+                      <div>
+                        <h3 className="font-semibold text-lg text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                          {p.name}
+                        </h3>
+                        {p.description && (
+                          <p className="text-sm text-gray-600 line-clamp-2 mt-1">
+                            {p.description}
+                          </p>
+                        )}
+                      </div>
+                      
+                      {/* Price and Rating */}
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-2xl font-bold text-blue-600">${p.price}</p>
+                          <div className="flex items-center gap-1 mt-1">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`h-3 w-3 ${i < 4 ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
+                              />
+                            ))}
+                            <span className="text-xs text-gray-500 ml-1">(4.0)</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Category */}
+                      {p.category && (
+                        <Badge variant="outline" className="text-xs">
+                          {p.category}
+                        </Badge>
+                      )}
+
+                      {/* Add to Cart Button */}
+                      <div className="pt-2">
+                        <AddToCartButton 
+                          product={p} 
+                          className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                          disabled={!p.is_active}
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-blue-600 text-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-4xl font-bold mb-2">10K+</div>
+              <p className="text-blue-200">Happy Customers</p>
+            </div>
+            <div>
+              <div className="text-4xl font-bold mb-2">5K+</div>
+              <p className="text-blue-200">Products Sold</p>
+            </div>
+            <div>
+              <div className="text-4xl font-bold mb-2">99%</div>
+              <p className="text-blue-200">Satisfaction Rate</p>
+            </div>
+            <div>
+              <div className="text-4xl font-bold mb-2">24/7</div>
+              <p className="text-blue-200">Customer Support</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-xl font-bold mb-4">MarketPlace</h3>
+              <p className="text-gray-400 mb-4">
+                Your one-stop destination for quality products and great deals.
+              </p>
+              <div className="flex space-x-4">
+                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
+                  <Users className="h-4 w-4" />
+                </Button>
+                <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
+                  <Zap className="h-4 w-4" />
+                </Button>
               </div>
             </div>
-          ))}
+            
+            <div>
+              <h4 className="font-semibold mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-4">Categories</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors">Electronics</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Fashion</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Home & Garden</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Sports</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-4">Newsletter</h4>
+              <p className="text-gray-400 mb-4">Subscribe to get updates on new products and deals.</p>
+              <div className="flex">
+                <input 
+                  type="email" 
+                  placeholder="Enter your email"
+                  className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-l-md focus:outline-none focus:border-blue-500"
+                />
+                <Button className="bg-blue-600 hover:bg-blue-700 rounded-l-none">
+                  Subscribe
+                </Button>
+              </div>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 MarketPlace. All rights reserved.</p>
+          </div>
         </div>
-      )}
-      {/* <LoadingSpinner fullscreen text="Loading Products" size={48} thickness={6} color='#10b981' /> */}
-      </div>
+      </footer>
     </div>
   )
 }
