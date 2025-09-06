@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axiosInstance from '../utils/axiosInstance'
 import { getPublicProduct } from '../api/product'
+import AddToCartButton from '../Components/AddToCartButton'
 
 const ProductDetail = () => {
   const { id } = useParams()
@@ -208,13 +209,21 @@ const ProductDetail = () => {
                   >
                     Continue Shopping
                   </button>
-                  <button
-                    className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                  <AddToCartButton 
+                    product={product} 
+                    className="flex-1 py-3 px-6"
                     disabled={!product.is_active}
-                  >
-                    {product.is_active ? 'Contact Seller' : 'Unavailable'}
-                  </button>
+                  />
                 </div>
+                {product.is_active && (
+                  <div className="mt-4">
+                    <button
+                      className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-green-700 transition-colors"
+                    >
+                      Contact Seller
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

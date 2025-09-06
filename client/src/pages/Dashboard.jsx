@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import axiosInstance from '../utils/axiosInstance'
 import { getPublicProducts, searchProducts } from '../api/product'
 import SearchAndFilter from '../Components/SearchAndFilter'
+import Header from '../Components/Header'
+import AddToCartButton from '../Components/AddToCartButton'
 // import LoadingSpinner from '../Components/LoadingSpinner'
 
 const Dashboard = () => {
@@ -49,7 +51,9 @@ const Dashboard = () => {
   if (error) return <div className="p-6 text-red-600">{error}</div>
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div>
+      <Header />
+      <div className="max-w-6xl mx-auto p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold text-gray-900">
           {searchResult ? 'Search Results' : 'Latest Products'}
@@ -67,15 +71,6 @@ const Dashboard = () => {
       {/* Search and Filter Component */}
       <SearchAndFilter onSearch={handleSearch} loading={isSearching} />
 
-      {/* Search Results Info */}
-      {searchResult && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-          <p className="text-blue-800">
-            Found {searchResult.total} product{searchResult.total !== 1 ? 's' : ''} 
-            {searchResult.totalPages > 1 && ` (Page ${searchResult.page} of ${searchResult.totalPages})`}
-          </p>
-        </div>
-      )}
 
       {/* Error Display */}
       {error && (
@@ -144,12 +139,22 @@ const Dashboard = () => {
                 {p.category && (
                   <p className="text-xs text-gray-500">Category: {p.category}</p>
                 )}
+
+                {/* Add to Cart Button */}
+                <div className="pt-3">
+                  <AddToCartButton 
+                    product={p} 
+                    className="w-full"
+                    disabled={!p.is_active}
+                  />
+                </div>
               </div>
             </div>
           ))}
         </div>
       )}
       {/* <LoadingSpinner fullscreen text="Loading Products" size={48} thickness={6} color='#10b981' /> */}
+      </div>
     </div>
   )
 }

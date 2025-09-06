@@ -2,8 +2,11 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
     baseURL: "http://localhost:5000",
-    timeout: 10000,
+    timeout: 15000, // Increased timeout to 15 seconds
     withCredentials: true,
+    headers: {
+        'Content-Type': 'application/json',
+    },
 });
 
 
@@ -42,6 +45,10 @@ axiosInstance.interceptors.response.use(
         } else if (error.request) {
             // Request was made but no response received
             console.error('Network error - no response received:', error.request);
+            console.error('This usually means the server is not running or not accessible');
+        } else if (error.code === 'ECONNABORTED') {
+            // Timeout error
+            console.error('Request timeout - server took too long to respond');
         } else {
             // Error in setting up the request
             console.error('Request configuration error:', error.message);
