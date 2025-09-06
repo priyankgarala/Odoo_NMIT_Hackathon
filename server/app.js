@@ -3,26 +3,32 @@ import connectDB from './src/config/mongo.config.js';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import authRoutes from './src/routes/authRoutes.js'
+import userRoutes from './src/routes/userRoutes.js'
 import cors from 'cors';
+import { notFound, errorHandler } from './src/middlewares/errorHandlers.js';
+
+
+dotenv.config();
 
 const app = express();
-
-
 
 app.use(cors({
     origin: process.env.CLIENT_URL || "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials : true
 }))
-
-dotenv.config();
 app.use(express.json());
 app.use(cookieParser());
 
 
 // routes
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 
+
+// 404 and error handlers
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(5000, ()=> {
     connectDB();
