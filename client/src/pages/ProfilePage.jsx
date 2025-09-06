@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getUserProfile, updateUserProfile } from "../api/user";
 import { logoutUser } from "../api/auth.js";
 import axiosInstance from "../utils/axiosInstance";
-// import { getMyProducts, createProduct, updateProduct, deleteProduct } from "../api/product";
+import { getMyProducts, createProduct, updateProduct, deleteProduct } from "../api/product.js";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
@@ -10,11 +10,11 @@ const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(true);
-//   const [products, setProducts] = useState([]);
-//   const [productForm, setProductForm] = useState({ name: "", description: "", price: "", quantity: 1, category: "", condition: "new", image_url: "" });
-//   const [productError, setProductError] = useState("");
-//   const [editProductId, setEditProductId] = useState(null);
-//   const [editForm, setEditForm] = useState({ name: "", description: "", price: "", quantity: 1, category: "", condition: "new", image_url: "" });
+  const [products, setProducts] = useState([]);
+  const [productForm, setProductForm] = useState({ name: "", description: "", price: "", quantity: 1, category: "", condition: "new", image_url: "" });
+  const [productError, setProductError] = useState("");
+  const [editProductId, setEditProductId] = useState(null);
+  const [editForm, setEditForm] = useState({ name: "", description: "", price: "", quantity: 1, category: "", condition: "new", image_url: "" });
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -43,9 +43,9 @@ const ProfilePage = () => {
         setLoading(false);
       });
     // Load my products
-    // getMyProducts(axiosInstance)
-    //   .then(setProducts)
-    //   .catch((error) => console.error("Failed to load products:", error));
+    getMyProducts(axiosInstance)
+      .then(setProducts)
+      .catch((error) => console.error("Failed to load products:", error));
   }, []);
 
   const handleChange = (e) => {
@@ -77,65 +77,65 @@ const ProfilePage = () => {
     }
   };
 
-//   const handleProductChange = (e) => {
-    // setProductForm({ ...productForm, [e.target.name]: e.target.value });
-//   };
+  const handleProductChange = (e) => {
+    setProductForm({ ...productForm, [e.target.name]: e.target.value });
+  };
 
-//   const handleCreateProduct = async () => {
-//     setProductError("");
-//     try {
-//       const created = await createProduct(axiosInstance, { ...productForm, price: Number(productForm.price) });
-//       setProducts([created, ...products]);
-//       setProductForm({ name: "", description: "", price: "", quantity: 1, category: "", condition: "new", image_url: "" });
-//     } catch (err) {
-//       setProductError(err?.response?.data?.message || err?.message || "Failed to create product");
-//     }
-//   };
+  const handleCreateProduct = async () => {
+    setProductError("");
+    try {
+      const created = await createProduct(axiosInstance, { ...productForm, price: Number(productForm.price) });
+      setProducts([created, ...products]);
+      setProductForm({ name: "", description: "", price: "", quantity: 1, category: "", condition: "new", image_url: "" });
+    } catch (err) {
+      setProductError(err?.response?.data?.message || err?.message || "Failed to create product");
+    }
+  };
 
-//   const handleUpdateProduct = async (id, updates) => {
-//     try {
-//       const updated = await updateProduct(axiosInstance, id, updates);
-//       setProducts(prev => prev.map(p => p._id === id ? updated : p));
-//     } catch (err) {
-//       alert(err?.response?.data?.message || err?.message || "Failed to update product");
-//     }
-//   };
+  const handleUpdateProduct = async (id, updates) => {
+    try {
+      const updated = await updateProduct(axiosInstance, id, updates);
+      setProducts(prev => prev.map(p => p._id === id ? updated : p));
+    } catch (err) {
+      alert(err?.response?.data?.message || err?.message || "Failed to update product");
+    }
+  };
 
-//   const handleDeleteProduct = async (id) => {
-//     try {
-//       await deleteProduct(axiosInstance, id);
-//       setProducts(prev => prev.filter(p => p._id !== id));
-//     } catch (err) {
-//       alert(err?.response?.data?.message || err?.message || "Failed to delete product");
-//     }
-//   };
+  const handleDeleteProduct = async (id) => {
+    try {
+      await deleteProduct(axiosInstance, id);
+      setProducts(prev => prev.filter(p => p._id !== id));
+    } catch (err) {
+      alert(err?.response?.data?.message || err?.message || "Failed to delete product");
+    }
+  };
 
-//   const startEditProduct = (product) => {
-//     setEditProductId(product._id);
-//     setEditForm({
-//       name: product.name || "",
-//       description: product.description || "",
-//       price: product.price ?? "",
-//       quantity: product.quantity ?? 1,
-//       category: product.category || "",
-//       condition: product.condition || "new",
-//       image_url: product.image_url || "",
-//     });
-//   };
+  const startEditProduct = (product) => {
+    setEditProductId(product._id);
+    setEditForm({
+      name: product.name || "",
+      description: product.description || "",
+      price: product.price ?? "",
+      quantity: product.quantity ?? 1,
+      category: product.category || "",
+      condition: product.condition || "new",
+      image_url: product.image_url || "",
+    });
+  };
 
-//   const cancelEditProduct = () => {
-//     setEditProductId(null);
-//   };
+  const cancelEditProduct = () => {
+    setEditProductId(null);
+  };
 
-//   const saveEditProduct = async (id) => {
-//     const payload = {
-//       ...editForm,
-//       price: Number(editForm.price),
-//       quantity: Number(editForm.quantity),
-//     };
-//     await handleUpdateProduct(id, payload);
-//     setEditProductId(null);
-//   };
+  const saveEditProduct = async (id) => {
+    const payload = {
+      ...editForm,
+      price: Number(editForm.price),
+      quantity: Number(editForm.quantity),
+    };
+    await handleUpdateProduct(id, payload);
+    setEditProductId(null);
+  };
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
   if (!user) return <p className="text-center mt-10">Failed to load profile</p>;
@@ -256,7 +256,7 @@ const ProfilePage = () => {
         )}
       </div>
     </div>
-    {/* <div className="bg-white shadow-lg rounded-2xl p-6 mt-6">
+    <div className="bg-white shadow-lg rounded-2xl p-6 mt-6">
       <h2 className="text-xl font-bold mb-4">My Products</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
         {products.map(p => (
@@ -319,7 +319,7 @@ const ProfilePage = () => {
       {productError && <p className="text-red-600 text-sm mt-2">{productError}</p>}
 
       
-    </div> */}
+    </div>
     </>
   );
 };

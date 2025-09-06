@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import authRoutes from './src/routes/authRoutes.js'
 import userRoutes from './src/routes/userRoutes.js'
+import productRoutes from './src/routes/productRoutes.js'
 import cors from 'cors';
 import { notFound, errorHandler } from './src/middlewares/errorHandlers.js';
 
@@ -24,6 +25,7 @@ app.use(cookieParser());
 // routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/products", productRoutes);
 
 
 // 404 and error handlers
