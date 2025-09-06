@@ -10,7 +10,7 @@ import orderRoutes from './src/routes/orderRoutes.js'
 import cors from 'cors';
 import { notFound, errorHandler } from './src/middlewares/errorHandlers.js';
 
-//app.js
+//app.jss
 dotenv.config();
 
 const app = express();
