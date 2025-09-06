@@ -4,6 +4,7 @@ import { useCart } from '../contexts/CartContext'
 import { updateCartItem, removeFromCart, clearCart } from '../api/cart'
 import { createOrder } from '../api/order'
 import axiosInstance from '../utils/axiosInstance'
+import Header from '../Components/Header'
 
 const CartPage = () => {
   const navigate = useNavigate()
@@ -72,7 +73,7 @@ const CartPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading your cart...</p>
         </div>
       </div>
@@ -88,7 +89,7 @@ const CartPage = () => {
           <p className="text-gray-600 mb-6">{error}</p>
           <button
             onClick={() => navigate('/')}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
           >
             Back to Products
           </button>
@@ -101,13 +102,15 @@ const CartPage = () => {
   const totalPrice = cart?.calculated_total_price || 0
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <div className="py-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => navigate('/')}
-            className="text-blue-600 hover:text-blue-800 flex items-center gap-2 mb-4"
+            className="text-green-600 hover:text-green-800 flex items-center gap-2 mb-4"
           >
             ← Back to Products
           </button>
@@ -121,7 +124,7 @@ const CartPage = () => {
             <p className="text-gray-600 mb-6">Add some products to get started!</p>
             <button
               onClick={() => navigate('/')}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium"
             >
               Continue Shopping
             </button>
@@ -177,7 +180,7 @@ const CartPage = () => {
                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                               item.product_id.condition === 'new' ? 'bg-green-100 text-green-800' :
                               item.product_id.condition === 'used' ? 'bg-yellow-100 text-yellow-800' :
-                              'bg-blue-100 text-blue-800'
+                              'bg-green-100 text-green-800'
                             }`}>
                               {item.product_id.condition?.charAt(0).toUpperCase() + item.product_id.condition?.slice(1)}
                             </span>
@@ -270,7 +273,7 @@ const CartPage = () => {
 
                 <button
                   onClick={handleCheckout}
-                  className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  className="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition-colors font-medium"
                 >
                   Proceed to Checkout
                 </button>
@@ -285,6 +288,7 @@ const CartPage = () => {
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   )

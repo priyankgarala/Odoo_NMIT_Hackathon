@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import InputField from "./InputField.jsx";
 import { loginUser } from "../api/auth.js";
 import { useNavigate } from "react-router-dom"
+import { useAuth } from "../contexts/AuthContext";
 import { z } from "zod";
 
 const schema = z.object({
@@ -18,6 +19,7 @@ export default function Login() {
   const [success, setSuccess] = useState(false);
   
   const navigate = useNavigate();
+  const { login } = useAuth();
 
     
 
@@ -34,6 +36,8 @@ export default function Login() {
 
       try {
         const data = await loginUser(formData.email, formData.password)
+        // Update auth context
+        login(data.user || { email: formData.email });
         navigate('/');
         setSuccess(true)
         setErrors("")

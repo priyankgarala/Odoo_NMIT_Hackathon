@@ -71,23 +71,23 @@ const Dashboard = () => {
       <Header />
       
       {/* Hero Banner Section */}
-      <section className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 text-white py-20">
+      <section className="relative bg-gradient-to-r from-green-600 via-emerald-600 to-teal-700 text-white py-20">
         <div className="absolute inset-0 bg-black opacity-20"></div>
         <div className="relative max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            Discover Amazing Products
+            Give Items a Second Life
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto">
-            Find the perfect items from our curated collection of quality products
+            Discover quality pre-owned goods and sell your unused items. Sustainable shopping made easy with great deals on second-hand treasures.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 font-semibold">
+            <Button size="lg" className="bg-white text-green-600 hover:bg-gray-100 font-semibold">
               <ShoppingCart className="mr-2 h-5 w-5" />
-              Shop Now
+              Shop Pre-Owned
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-green-600">
               <Search className="mr-2 h-5 w-5" />
-              Browse Categories
+              Sell Your Items
             </Button>
           </div>
         </div>
@@ -118,19 +118,19 @@ const Dashboard = () => {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Shop by Category</h2>
-            <p className="text-xl text-gray-600">Explore our wide range of product categories</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Shop Pre-Owned Categories</h2>
+            <p className="text-xl text-gray-600">Find quality second-hand items across all categories</p>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { name: "Electronics", icon: "📱", color: "blue", count: "150+" },
-              { name: "Fashion", icon: "👕", color: "pink", count: "200+" },
-              { name: "Home & Garden", icon: "🏠", color: "green", count: "120+" },
-              { name: "Sports", icon: "⚽", color: "orange", count: "80+" },
-              { name: "Books", icon: "📚", color: "purple", count: "300+" },
-              { name: "Beauty", icon: "💄", color: "rose", count: "90+" },
-              { name: "Toys", icon: "🧸", color: "yellow", count: "110+" },
+              { name: "Fashion & Accessories", icon: "👕", color: "pink", count: "200+" },
+              { name: "Home & Furniture", icon: "🏠", color: "green", count: "120+" },
+              { name: "Sports & Fitness", icon: "⚽", color: "orange", count: "80+" },
+              { name: "Books & Media", icon: "📚", color: "purple", count: "300+" },
+              { name: "Beauty & Health", icon: "💄", color: "rose", count: "90+" },
+              { name: "Toys & Games", icon: "🧸", color: "yellow", count: "110+" },
               { name: "Automotive", icon: "🚗", color: "gray", count: "60+" }
             ].map((category, index) => (
               <Card key={index} className="group cursor-pointer hover:shadow-lg transition-all duration-300 border-2 hover:border-blue-400">
@@ -157,33 +157,33 @@ const Dashboard = () => {
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose Us?</h2>
-            <p className="text-xl text-gray-600">We provide the best shopping experience</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose Pre-Owned?</h2>
+            <p className="text-xl text-gray-600">Discover the benefits of second-hand shopping</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <Shield className="h-8 w-8 text-blue-600" />
+              <div className="w-16 h-16 bg-green-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <Shield className="h-8 w-8 text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Secure Shopping</h3>
-              <p className="text-gray-600">Your data and payments are protected with industry-leading security</p>
+              <h3 className="text-xl font-semibold mb-2">Eco-Friendly</h3>
+              <p className="text-gray-600">Reduce waste and environmental impact by giving items a second life</p>
             </div>
             
             <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <Truck className="h-8 w-8 text-green-600" />
+              <div className="w-16 h-16 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <Award className="h-8 w-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Fast Delivery</h3>
-              <p className="text-gray-600">Quick and reliable shipping to get your products to you fast</p>
+              <h3 className="text-xl font-semibold mb-2">Great Value</h3>
+              <p className="text-gray-600">Find quality items at fraction of retail prices with verified condition</p>
             </div>
             
             <div className="text-center">
               <div className="w-16 h-16 bg-purple-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <Award className="h-8 w-8 text-purple-600" />
+                <Heart className="h-8 w-8 text-purple-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Quality Guarantee</h3>
-              <p className="text-gray-600">All products are verified for quality and authenticity</p>
+              <h3 className="text-xl font-semibold mb-2">Community Driven</h3>
+              <p className="text-gray-600">Connect with sellers and buyers in your local community</p>
             </div>
           </div>
         </div>
@@ -194,11 +194,11 @@ const Dashboard = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-900">
-              {searchResult ? 'Search Results' : 'Featured Products'}
+              {searchResult ? 'Search Results' : 'Latest Pre-Owned Items'}
             </h2>
             <div className="flex items-center gap-2 text-sm text-gray-500">
               <TrendingUp className="h-4 w-4" />
-              <span>Updated daily</span>
+              <span>New listings daily</span>
             </div>
           </div>
 
@@ -216,14 +216,14 @@ const Dashboard = () => {
                 <Search className="h-12 w-12 text-gray-400" />
               </div>
               <h3 className="text-2xl font-semibold text-gray-600 mb-2">
-                {searchResult ? 'No products found' : 'No products yet'}
+                {searchResult ? 'No items found' : 'No pre-owned items yet'}
               </h3>
               <p className="text-gray-500 mb-6">
-                {searchResult ? 'Try adjusting your search criteria' : 'Be the first to add a product!'}
+                {searchResult ? 'Try adjusting your search criteria' : 'Be the first to list a pre-owned item!'}
               </p>
               {!searchResult && (
-                <Button onClick={() => navigate('/add-product')} className="bg-blue-600 hover:bg-blue-700">
-                  Add Your First Product
+                <Button onClick={() => navigate('/add-product')} className="bg-green-600 hover:bg-green-700">
+                  List Your First Item
                 </Button>
               )}
             </div>
@@ -314,7 +314,7 @@ const Dashboard = () => {
                       <div className="pt-2">
                         <AddToCartButton 
                           product={p} 
-                          className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                          className="w-full bg-green-600 hover:bg-green-700 text-white"
                           disabled={!p.is_active}
                         />
                       </div>
@@ -328,24 +328,24 @@ const Dashboard = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-blue-600 text-white">
+      <section className="py-16 bg-green-600 text-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold mb-2">10K+</div>
-              <p className="text-blue-200">Happy Customers</p>
+              <div className="text-4xl font-bold mb-2">15K+</div>
+              <p className="text-green-200">Items Resold</p>
             </div>
             <div>
-              <div className="text-4xl font-bold mb-2">5K+</div>
-              <p className="text-blue-200">Products Sold</p>
+              <div className="text-4xl font-bold mb-2">8K+</div>
+              <p className="text-green-200">Active Sellers</p>
             </div>
             <div>
-              <div className="text-4xl font-bold mb-2">99%</div>
-              <p className="text-blue-200">Satisfaction Rate</p>
+              <div className="text-4xl font-bold mb-2">95%</div>
+              <p className="text-green-200">Satisfaction Rate</p>
             </div>
             <div>
-              <div className="text-4xl font-bold mb-2">24/7</div>
-              <p className="text-blue-200">Customer Support</p>
+              <div className="text-4xl font-bold mb-2">$2M+</div>
+              <p className="text-green-200">Money Saved</p>
             </div>
           </div>
         </div>
@@ -356,9 +356,9 @@ const Dashboard = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">MarketPlace</h3>
+              <h3 className="text-xl font-bold mb-4">ReMarket</h3>
               <p className="text-gray-400 mb-4">
-                Your one-stop destination for quality products and great deals.
+                Your sustainable marketplace for quality pre-owned goods. Give items a second life while saving money and the planet.
               </p>
               <div className="flex space-x-4">
                 <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white p-2">
@@ -384,22 +384,22 @@ const Dashboard = () => {
               <h4 className="font-semibold mb-4">Categories</h4>
               <ul className="space-y-2 text-gray-400">
                 <li><a href="#" className="hover:text-white transition-colors">Electronics</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Fashion</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Home & Garden</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Sports</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Fashion & Accessories</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Home & Furniture</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Sports & Fitness</a></li>
               </ul>
             </div>
             
             <div>
               <h4 className="font-semibold mb-4">Newsletter</h4>
-              <p className="text-gray-400 mb-4">Subscribe to get updates on new products and deals.</p>
+              <p className="text-gray-400 mb-4">Subscribe to get updates on new pre-owned items and deals.</p>
               <div className="flex">
                 <input 
                   type="email" 
                   placeholder="Enter your email"
                   className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-l-md focus:outline-none focus:border-blue-500"
                 />
-                <Button className="bg-blue-600 hover:bg-blue-700 rounded-l-none">
+                <Button className="bg-green-600 hover:bg-green-700 rounded-l-none">
                   Subscribe
                 </Button>
               </div>
@@ -407,7 +407,7 @@ const Dashboard = () => {
           </div>
           
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 MarketPlace. All rights reserved.</p>
+            <p>&copy; 2024 ReMarket. All rights reserved.</p>
           </div>
         </div>
       </footer>

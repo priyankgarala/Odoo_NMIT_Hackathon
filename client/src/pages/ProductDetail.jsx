@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import axiosInstance from '../utils/axiosInstance'
 import { getPublicProduct } from '../api/product'
 import AddToCartButton from '../Components/AddToCartButton'
+import Header from '../Components/Header'
 
 const ProductDetail = () => {
   const { id } = useParams()
@@ -31,7 +32,7 @@ const ProductDetail = () => {
       case 'used':
         return 'bg-yellow-100 text-yellow-800'
       case 'refurbished':
-        return 'bg-blue-100 text-blue-800'
+        return 'bg-green-100 text-green-800'
       default:
         return 'bg-gray-100 text-gray-800'
     }
@@ -45,7 +46,7 @@ const ProductDetail = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading product details...</p>
         </div>
       </div>
@@ -61,7 +62,7 @@ const ProductDetail = () => {
           <p className="text-gray-600 mb-6">{error}</p>
           <button
             onClick={() => navigate('/')}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
           >
             Back to Products
           </button>
@@ -78,7 +79,7 @@ const ProductDetail = () => {
           <p className="text-gray-600 mb-6">The product you're looking for doesn't exist.</p>
           <button
             onClick={() => navigate('/')}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
           >
             Back to Products
           </button>
@@ -88,13 +89,15 @@ const ProductDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <div className="py-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <nav className="mb-8">
           <button
             onClick={() => navigate('/')}
-            className="text-blue-600 hover:text-blue-800 transition-colors"
+            className="text-green-600 hover:text-green-800 transition-colors"
           >
             ← Back to Products
           </button>
@@ -230,6 +233,7 @@ const ProductDetail = () => {
         </div>
       </div>
     </div>
+  </div>
   )
 }
 

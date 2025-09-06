@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getUserOrders, getUserOrderStats } from '../api/order'
 import axiosInstance from '../utils/axiosInstance'
+import Header from '../Components/Header'
 
 const PreviousPurchasePage = () => {
   const navigate = useNavigate()
@@ -70,7 +71,7 @@ const PreviousPurchasePage = () => {
       completed: 'bg-green-100 text-green-800',
       pending: 'bg-yellow-100 text-yellow-800',
       cancelled: 'bg-red-100 text-red-800',
-      shipped: 'bg-blue-100 text-blue-800',
+      shipped: 'bg-green-100 text-green-800',
       delivered: 'bg-green-100 text-green-800'
     }
     return colors[status] || 'bg-gray-100 text-gray-800'
@@ -80,7 +81,7 @@ const PreviousPurchasePage = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading your previous purchases...</p>
         </div>
       </div>
@@ -96,7 +97,7 @@ const PreviousPurchasePage = () => {
           <p className="text-gray-600 mb-4">{error}</p>
           <button
             onClick={() => loadOrders(currentPage)}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
           >
             Try Again
           </button>
@@ -107,6 +108,7 @@ const PreviousPurchasePage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Header />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -130,7 +132,7 @@ const PreviousPurchasePage = () => {
             <div className="bg-white p-6 rounded-lg shadow-sm border">
               <div className="flex items-center">
                 <div className="p-2 bg-blue-100 rounded-lg">
-                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                   </svg>
                 </div>
@@ -198,7 +200,7 @@ const PreviousPurchasePage = () => {
               <p className="text-gray-600 mb-4">You haven't made any purchases yet.</p>
               <button
                 onClick={() => navigate('/')}
-                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
               >
                 Start Shopping
               </button>

@@ -31,3 +31,4 @@ export const getRecentPurchases = async (axiosInstance, limit = 5) => {
   });
   return data;
 };
+
