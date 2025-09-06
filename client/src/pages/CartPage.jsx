@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../contexts/CartContext'
 import { updateCartItem, removeFromCart, clearCart } from '../api/cart'
+import { createOrder } from '../api/order'
 import axiosInstance from '../utils/axiosInstance'
 
 const CartPage = () => {
@@ -15,12 +16,22 @@ const CartPage = () => {
   }, [loadCart])
 
   const handleQuantityChange = async (productId, newQuantity) => {
-    if (newQuantity < 1) return
+    if (newQuantity < 1) {
+      console.log('Quantity cannot be less than 1')
+      return
+    }
 
+    console.log('Updating quantity for product:', productId, 'to:', newQuantity)
     setUpdating(prev => ({ ...prev, [productId]: true }))
     try {
       const result = await updateCartItem(axiosInstance, productId, newQuantity)
-      updateCart(result.cart)
+      console.log('Quantity update result:', result)
+      if (result && result.cart) {
+        updateCart(result.cart)
+      } else {
+        console.error('Invalid response from updateCartItem:', result)
+        alert('Invalid response from server')
+      }
     } catch (err) {
       console.error('Failed to update quantity:', err)
       alert(err?.response?.data?.message || 'Failed to update quantity')
@@ -30,14 +41,17 @@ const CartPage = () => {
   }
 
   const handleRemoveItem = async (productId) => {
-    if (!confirm('Are you sure you want to remove this item from your cart?')) {
-      return
-    }
-
+    console.log('Removing product from cart:', productId)
     setUpdating(prev => ({ ...prev, [productId]: true }))
     try {
       const result = await removeFromCart(axiosInstance, productId)
-      updateCart(result.cart)
+      console.log('Remove item result:', result)
+      if (result && result.cart) {
+        updateCart(result.cart)
+      } else {
+        console.error('Invalid response from removeFromCart:', result)
+        alert('Invalid response from server')
+      }
     } catch (err) {
       console.error('Failed to remove item:', err)
       alert(err?.response?.data?.message || 'Failed to remove item')
@@ -47,10 +61,6 @@ const CartPage = () => {
   }
 
   const handleClearCart = async () => {
-    if (!confirm('Are you sure you want to clear your entire cart?')) {
-      return
-    }
-
     setActionLoading(true)
     try {
       const result = await clearCart(axiosInstance)
@@ -192,9 +202,14 @@ const CartPage = () => {
                         {/* Quantity Controls */}
                         <div className="flex items-center space-x-2">
                           <button
-                            onClick={() => handleQuantityChange(item.product_id._id, item.quantity - 1)}
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              console.log('Decrease button clicked for product:', item.product_id._id)
+                              handleQuantityChange(item.product_id._id, item.quantity - 1)
+                            }}
                             disabled={updating[item.product_id._id] || item.quantity <= 1}
-                            className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                           >
                             -
                           </button>
@@ -202,9 +217,14 @@ const CartPage = () => {
                             {updating[item.product_id._id] ? '...' : item.quantity}
                           </span>
                           <button
-                            onClick={() => handleQuantityChange(item.product_id._id, item.quantity + 1)}
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              console.log('Increase button clicked for product:', item.product_id._id)
+                              handleQuantityChange(item.product_id._id, item.quantity + 1)
+                            }}
                             disabled={updating[item.product_id._id] || item.quantity >= item.product_id.quantity}
-                            className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                           >
                             +
                           </button>
@@ -221,9 +241,14 @@ const CartPage = () => {
                             </p>
                           </div>
                           <button
-                            onClick={() => handleRemoveItem(item.product_id._id)}
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              console.log('Remove button clicked for product:', item.product_id._id)
+                              handleRemoveItem(item.product_id._id)
+                            }}
                             disabled={updating[item.product_id._id]}
-                            className="text-red-600 hover:text-red-800 text-sm font-medium disabled:opacity-50"
+                            className="text-red-600 hover:text-red-800 text-sm font-medium disabled:opacity-50 transition-colors"
                           >
                             {updating[item.product_id._id] ? 'Removing...' : 'Remove'}
                           </button>
