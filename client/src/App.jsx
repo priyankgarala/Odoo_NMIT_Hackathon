@@ -9,6 +9,7 @@ import ProductDetail from "./pages/ProductDetail";
 
 export default function App() {
   return (
+    // routing for different pages
     <Router>
       
       <Routes>
