@@ -256,69 +256,249 @@ const ProfilePage = () => {
         )}
       </div>
     </div>
-    <div className="bg-white shadow-lg rounded-2xl p-6 mt-6">
-      <h2 className="text-xl font-bold mb-4">My Products</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-        {products.map(p => (
-          <div key={p._id} className="border rounded-xl p-4">
-            <div className="flex justify-between items-center">
-              <h3 className="font-semibold">{p.name}</h3>
-              <div className="space-x-2">
-                <button onClick={() => handleUpdateProduct(p._id, { is_active: !p.is_active })} className="px-3 py-1 rounded bg-yellow-500 text-white">{p.is_active ? 'Deactivate' : 'Activate'}</button>
-                {editProductId === p._id ? (
-                  <>
-                    <button onClick={() => saveEditProduct(p._id)} className="px-3 py-1 rounded bg-green-600 text-white">Save</button>
-                    <button onClick={cancelEditProduct} className="px-3 py-1 rounded bg-gray-400 text-white">Cancel</button>
-                  </>
-                ) : (
-                  <button onClick={() => startEditProduct(p)} className="px-3 py-1 rounded bg-blue-600 text-white">Edit</button>
+    <div className="max-w-6xl mx-auto p-6">
+      <div className="bg-white shadow-lg rounded-2xl p-6">
+        <h2 className="text-xl font-bold mb-6">My Products</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {products.map(p => (
+            <div key={p._id} className="border rounded-xl p-4 bg-white shadow hover:shadow-lg transition-shadow">
+              {/* Product Image */}
+              {p.image_url ? (
+                <div 
+                  className="aspect-square rounded-lg overflow-hidden bg-gray-100 mb-4 cursor-pointer"
+                  onClick={() => navigate(`/product/${p._id}`)}
+                >
+                  <img 
+                    src={p.image_url} 
+                    alt={p.name} 
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-200" 
+                  />
+                </div>
+              ) : (
+                <div 
+                  className="aspect-square rounded-lg bg-gray-200 flex items-center justify-center mb-4 cursor-pointer"
+                  onClick={() => navigate(`/product/${p._id}`)}
+                >
+                  <div className="text-center text-gray-500">
+                    <div className="text-4xl mb-1">📦</div>
+                    <p className="text-sm">No Image</p>
+                  </div>
+                </div>
+              )}
+              
+              {/* Product Info */}
+              <div className="space-y-3">
+                <div 
+                  className="cursor-pointer"
+                  onClick={() => navigate(`/product/${p._id}`)}
+                >
+                  <h3 className="font-semibold text-lg text-gray-900 line-clamp-2 hover:text-blue-600 transition-colors">{p.name}</h3>
+                  {p.description && (
+                    <p className="text-sm text-gray-600 line-clamp-2 mt-1">{p.description}</p>
+                  )}
+                </div>
+                
+                {/* Price and Condition */}
+                <div className="flex items-center justify-between">
+                  <p className="text-xl font-bold text-blue-600">${p.price}</p>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    p.condition === 'new' ? 'bg-green-100 text-green-800' :
+                    p.condition === 'used' ? 'bg-yellow-100 text-yellow-800' :
+                    'bg-blue-100 text-blue-800'
+                  }`}>
+                    {p.condition?.charAt(0).toUpperCase() + p.condition?.slice(1) || 'New'}
+                  </span>
+                </div>
+                
+                {/* Category and Status */}
+                <div className="flex items-center justify-between text-xs text-gray-500">
+                  {p.category && <span>Category: {p.category}</span>}
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    p.is_active 
+                      ? 'bg-green-100 text-green-800' 
+                      : 'bg-red-100 text-red-800'
+                  }`}>
+                    {p.is_active ? 'Active' : 'Inactive'}
+                  </span>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-wrap gap-2 pt-2">
+                  <button 
+                    onClick={() => handleUpdateProduct(p._id, { is_active: !p.is_active })} 
+                    className={`px-3 py-1 rounded text-xs font-medium ${
+                      p.is_active 
+                        ? 'bg-yellow-500 text-white hover:bg-yellow-600' 
+                        : 'bg-green-500 text-white hover:bg-green-600'
+                    }`}
+                  >
+                    {p.is_active ? 'Deactivate' : 'Activate'}
+                  </button>
+                  
+                  {editProductId === p._id ? (
+                    <>
+                      <button 
+                        onClick={() => saveEditProduct(p._id)} 
+                        className="px-3 py-1 rounded bg-green-600 text-white text-xs font-medium hover:bg-green-700"
+                      >
+                        Save
+                      </button>
+                      <button 
+                        onClick={cancelEditProduct} 
+                        className="px-3 py-1 rounded bg-gray-400 text-white text-xs font-medium hover:bg-gray-500"
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  ) : (
+                    <button 
+                      onClick={() => startEditProduct(p)} 
+                      className="px-3 py-1 rounded bg-blue-600 text-white text-xs font-medium hover:bg-blue-700"
+                    >
+                      Edit
+                    </button>
+                  )}
+                  
+                  <button 
+                    onClick={() => handleDeleteProduct(p._id)} 
+                    className="px-3 py-1 rounded bg-red-500 text-white text-xs font-medium hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+                </div>
+
+                {/* Edit Form */}
+                {editProductId === p._id && (
+                  <div className="mt-4 p-3 bg-gray-50 rounded-lg space-y-2">
+                    <input 
+                      className="w-full border p-2 rounded text-sm" 
+                      name="name" 
+                      value={editForm.name} 
+                      onChange={(e)=>setEditForm({...editForm,[e.target.name]:e.target.value})} 
+                      placeholder="Name" 
+                    />
+                    <input 
+                      className="w-full border p-2 rounded text-sm" 
+                      name="price" 
+                      value={editForm.price} 
+                      onChange={(e)=>setEditForm({...editForm,[e.target.name]:e.target.value})} 
+                      placeholder="Price" 
+                    />
+                    <input 
+                      className="w-full border p-2 rounded text-sm" 
+                      name="quantity" 
+                      value={editForm.quantity} 
+                      onChange={(e)=>setEditForm({...editForm,[e.target.name]:e.target.value})} 
+                      placeholder="Quantity" 
+                    />
+                    <input 
+                      className="w-full border p-2 rounded text-sm" 
+                      name="category" 
+                      value={editForm.category} 
+                      onChange={(e)=>setEditForm({...editForm,[e.target.name]:e.target.value})} 
+                      placeholder="Category" 
+                    />
+                    <input 
+                      className="w-full border p-2 rounded text-sm" 
+                      name="image_url" 
+                      value={editForm.image_url} 
+                      onChange={(e)=>setEditForm({...editForm,[e.target.name]:e.target.value})} 
+                      placeholder="Image URL" 
+                    />
+                    <select 
+                      className="w-full border p-2 rounded text-sm" 
+                      name="condition" 
+                      value={editForm.condition} 
+                      onChange={(e)=>setEditForm({...editForm,[e.target.name]:e.target.value})}
+                    >
+                      <option value="new">New</option>
+                      <option value="used">Used</option>
+                      <option value="refurbished">Refurbished</option>
+                    </select>
+                    <textarea 
+                      className="w-full border p-2 rounded text-sm" 
+                      name="description" 
+                      value={editForm.description} 
+                      onChange={(e)=>setEditForm({...editForm,[e.target.name]:e.target.value})} 
+                      placeholder="Description" 
+                      rows="3"
+                    />
+                  </div>
                 )}
-                <button onClick={() => handleDeleteProduct(p._id)} className="px-3 py-1 rounded bg-red-500 text-white">Delete</button>
               </div>
             </div>
-
-            {editProductId === p._id ? (
-              <div className="mt-3 grid grid-cols-1 gap-2">
-                <input className="border p-2 rounded" name="name" value={editForm.name} onChange={(e)=>setEditForm({...editForm,[e.target.name]:e.target.value})} placeholder="Name" />
-                <input className="border p-2 rounded" name="price" value={editForm.price} onChange={(e)=>setEditForm({...editForm,[e.target.name]:e.target.value})} placeholder="Price" />
-                <input className="border p-2 rounded" name="quantity" value={editForm.quantity} onChange={(e)=>setEditForm({...editForm,[e.target.name]:e.target.value})} placeholder="Quantity" />
-                <input className="border p-2 rounded" name="category" value={editForm.category} onChange={(e)=>setEditForm({...editForm,[e.target.name]:e.target.value})} placeholder="Category" />
-                <input className="border p-2 rounded" name="image_url" value={editForm.image_url} onChange={(e)=>setEditForm({...editForm,[e.target.name]:e.target.value})} placeholder="Image URL" />
-                <select className="border p-2 rounded" name="condition" value={editForm.condition} onChange={(e)=>setEditForm({...editForm,[e.target.name]:e.target.value})}>
-                  <option value="new">New</option>
-                  <option value="used">Used</option>
-                  <option value="refurbished">Refurbished</option>
-                </select>
-                <textarea className="border p-2 rounded" name="description" value={editForm.description} onChange={(e)=>setEditForm({...editForm,[e.target.name]:e.target.value})} placeholder="Description" />
-              </div>
-            ) : (
-              <>
-                <p className="text-sm text-gray-600">{p.description}</p>
-                <p className="mt-2 font-bold">${p.price}</p>
-              </>
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
       
-      <h2 className="text-xl font-bold mt-8">Add New Product</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-6">
-        <input className="border p-2 rounded" name="name" value={productForm.name} onChange={handleProductChange} placeholder="Name" />
-        <input className="border p-2 rounded" name="price" value={productForm.price} onChange={handleProductChange} placeholder="Price" />
-        <input className="border p-2 rounded" name="quantity" value={productForm.quantity} onChange={handleProductChange} placeholder="Quantity" />
-        <input className="border p-2 rounded" name="category" value={productForm.category} onChange={handleProductChange} placeholder="Category" />
-        <input className="border p-2 rounded" name="image_url" value={productForm.image_url} onChange={handleProductChange} placeholder="Image URL" />
-        <select className="border p-2 rounded" name="condition" value={productForm.condition} onChange={handleProductChange}>
-          <option value="new">New</option>
-          <option value="used">Used</option>
-          <option value="refurbished">Refurbished</option>
-        </select>
-        <textarea className="border p-2 rounded col-span-1 md:col-span-2" name="description" value={productForm.description} onChange={handleProductChange} placeholder="Description" />
+      {/* Add New Product Section */}
+      <div className="bg-white shadow-lg rounded-2xl p-6 mt-6">
+        <h2 className="text-xl font-bold mb-6">Add New Product</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <input 
+            className="border p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+            name="name" 
+            value={productForm.name} 
+            onChange={handleProductChange} 
+            placeholder="Product Name" 
+          />
+          <input 
+            className="border p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+            name="price" 
+            value={productForm.price} 
+            onChange={handleProductChange} 
+            placeholder="Price" 
+            type="number"
+          />
+          <input 
+            className="border p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+            name="quantity" 
+            value={productForm.quantity} 
+            onChange={handleProductChange} 
+            placeholder="Quantity" 
+            type="number"
+          />
+          <input 
+            className="border p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+            name="category" 
+            value={productForm.category} 
+            onChange={handleProductChange} 
+            placeholder="Category" 
+          />
+          <input 
+            className="border p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+            name="image_url" 
+            value={productForm.image_url} 
+            onChange={handleProductChange} 
+            placeholder="Image URL" 
+          />
+          <select 
+            className="border p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+            name="condition" 
+            value={productForm.condition} 
+            onChange={handleProductChange}
+          >
+            <option value="new">New</option>
+            <option value="used">Used</option>
+            <option value="refurbished">Refurbished</option>
+          </select>
+          <textarea 
+            className="border p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent col-span-1 md:col-span-2" 
+            name="description" 
+            value={productForm.description} 
+            onChange={handleProductChange} 
+            placeholder="Product Description" 
+            rows="3"
+          />
+        </div>
+        <button 
+          onClick={handleCreateProduct} 
+          className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors font-medium"
+        >
+          Add Product
+        </button>
+        {productError && <p className="text-red-600 text-sm mt-3">{productError}</p>}
       </div>
-      <button onClick={handleCreateProduct} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Product</button>
-      {productError && <p className="text-red-600 text-sm mt-2">{productError}</p>}
-
-      
     </div>
     </>
   );

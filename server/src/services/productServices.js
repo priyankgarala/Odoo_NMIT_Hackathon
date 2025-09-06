@@ -1,11 +1,12 @@
 import {
-    createProduct,
-    findProductsByUser,
-    findProductById,
-    updateProductById,
-    deleteProductById,
-    findAllActiveProducts,
-  } from "../microservices/product.dao.js";
+  createProduct,
+  findProductsByUser,
+  findProductById,
+  updateProductById,
+  deleteProductById,
+  findAllActiveProducts,
+  searchAndFilterProducts,
+} from "../microservices/product.dao.js";
   
   export const addProduct = async (userId, payload) => {
     return createProduct({ ...payload, user_id: userId });
@@ -15,9 +16,21 @@ import {
     return findProductsByUser(userId);
   };
   
-  export const listPublicProducts = async () => {
-    return findAllActiveProducts();
-  };
+export const listPublicProducts = async () => {
+  return findAllActiveProducts();
+};
+
+export const getPublicProductById = async (productId) => {
+  const product = await findProductById(productId);
+  if (!product || !product.is_active) {
+    throw new Error("Product not found");
+  }
+  return product;
+};
+
+export const searchProducts = async (filters) => {
+  return searchAndFilterProducts(filters);
+};
   
   export const getMyProduct = async (userId, productId) => {
     const product = await findProductById(productId);

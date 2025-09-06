@@ -6,6 +6,8 @@ const router = Router();
 
 // Public listings
 router.get("/public", productController.get_public_products);
+router.get("/public/:id", productController.get_public_product);
+router.get("/search", productController.search_products);
 
 // Authenticated CRUD
 router.use(authenticateToken);

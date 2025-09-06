@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     avatar: { type: String, default: "" },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
-    product_id: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+    product_id: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
 
 })
 

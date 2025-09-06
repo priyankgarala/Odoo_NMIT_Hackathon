@@ -5,6 +5,24 @@ export const getPublicProducts = async (axiosInstance) => {
   return data;
 };
 
+export const getPublicProduct = async (axiosInstance, id) => {
+  const { data } = await axiosInstance.get(`/api/products/public/${id}`);
+  return data;
+};
+
+export const searchProducts = async (axiosInstance, filters = {}) => {
+  const queryParams = new URLSearchParams();
+  
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') {
+      queryParams.append(key, value);
+    }
+  });
+  
+  const { data } = await axiosInstance.get(`/api/products/search?${queryParams.toString()}`);
+  return data;
+};
+
 export const getMyProducts = async (axiosInstance) => {
   const { data } = await axiosInstance.get('/api/products');
   return data;
